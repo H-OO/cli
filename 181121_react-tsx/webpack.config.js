@@ -5,8 +5,6 @@
  * @const CleanWebpackPlugin 删除文件
  * @const HtmlWebpackPlugin 处理html文件
  * @const projectsDir 获取项目根目录地址
- * @const ExtractTextPlugin 抽离样式插件
- * @const extractSCSS 抽离scss
  * @const autoprefixer 样式自动加前缀
  * @const postcssLoaderPlugins postcss-loader引用相关插件
  */
@@ -15,8 +13,6 @@ const fs = require('fs');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const projectsDir = fs.realpathSync(process.cwd());
-// const ExtractTextPlugin = require('extract-text-webpack-plugin'); // version@next
-// const extractSCSS = new ExtractTextPlugin('[name].css');
 const autoprefixer = require('autoprefixer');
 const postcssLoaderPlugins = () => [
   require('postcss-flexbugs-fixes'), // postcss flexbugs 修复
@@ -31,13 +27,13 @@ const postcssLoaderPlugins = () => [
   })
 ];
 
-const config = {
+const config = (env, argv) => ({
   devServer: {
-		port: 8080,
-    open: true,
+    port: 8080,
+    open: true
     // contentBase: path.resolve(projectsDir, 'dist'), // 访问目录
     // openPage: 'm1.html'
-	},
+  },
   entry: {
     index: path.resolve(projectsDir, 'src/index/index.tsx')
   },
@@ -68,31 +64,25 @@ const config = {
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        // use: extractSCSS.extract({
-        //   fallback: 'style-loader',
-        //   use: [
-        //     {
-        //       loader: 'css-loader',
-        //       options: { url: false, sourceMap: true }
-        //     },
-        //     {
-        //       loader: 'postcss-loader',
-        //       options: {
-        //         ident: 'postcss',
-        //         plugins: postcssLoaderPlugins
-        //       }
-        //     },
-        //     {
-        //       loader: 'sass-loader',
-        //       options: { sourceMap: true }
-        //     }
-        //   ]
-        // })
         use: [
-					{ loader: "style-loader"},
-					{ loader: "css-loader"},
-					{ loader: "sass-loader"}
-				]
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: { sourceMap: true }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: postcssLoaderPlugins
+            }
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
       }
     ]
   },
@@ -100,10 +90,10 @@ const config = {
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       filename: 'index.html', // 输出文件名
-      template: path.resolve(projectsDir, 'src/template.html'), // 模板HTML
-    }),
-    // extractSCSS
+      template: path.resolve(projectsDir, 'src/template.html') // 模板HTML
+    })
   ]
-};
+});
+console.log(config);
 
 module.exports = config;
