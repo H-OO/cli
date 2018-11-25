@@ -17,7 +17,8 @@ module.exports = function getEntry(dirName) {
   const entry = {};
   dirList.forEach((item) => {
     // 将js打包到对应的文件夹下
-    entry[`${item}/${item}`] = `${dirPath}\\${item}\\index`;
+    // entry[`${item}/${item}`] = `${dirPath}/${item}/index`;
+    entry[item] = `${dirPath}/${item}/index`;
   })
   return entry; // { Object }
 };

@@ -21,7 +21,8 @@ module.exports = function htmlConfig(dirName) {
     // 模板
     const config = new HtmlWebpackPlugin({
       title: item,
-      chunks: [`${item}/${item}`],
+      // chunks: [`${item}/${item}`],
+      chunks: [item],
       filename: `${item}.html`, // 输出文件名
       template: path.resolve(projectsDir, 'src/template.html') // 模板HTML
     });

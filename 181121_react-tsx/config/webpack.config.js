@@ -66,7 +66,25 @@ const config = (env, argv) => {
         }),
         // 压缩css
         new OptimizeCSSAssetsPlugin()
-      ]
+      ],
+      // 抽离第三方包
+      splitChunks: {
+        chunks: 'all',
+        // name (module) {
+        //   console.log(module._name);
+        //   return;
+        // },
+        chunks (chunk) {
+          console.log('↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓');
+          console.log(chunk.name);
+          console.log(chunk.buildMeta);
+          console.log(chunk.buildInfo);
+          console.log(htmlConfig('src'));
+          console.log('↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑');
+          // exclude `my-excluded-chunk`
+          return chunk.name !== 'my-excluded-chunk';
+        }
+      }
       //压缩css
       // splitChunks: {
       //   cacheGroups: {
@@ -85,7 +103,7 @@ const config = (env, argv) => {
     output: {
       filename: '[name].js',
       path: path.resolve(projectsDir, 'dist'),
-      chunkFilename: '[name].[chunkhash:5].js',
+      // chunkFilename: '[name].[chunkhash:5].js',
       publicPath: mode === 'development' ? '/' : './'
     },
     // 模块
