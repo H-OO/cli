@@ -1,3 +1,4 @@
+'use strict';
 /**
  * getModuleName 动态获取模块列表
  * ---

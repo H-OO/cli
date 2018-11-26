@@ -12,6 +12,9 @@
  * @const projectsDir 获取终端启动的真实根路径
  * @const getEntry entry > 入口配置
  * @const htmlConfig plugin > 模块`html-webpack-plugin`配置
+ * @function getCacheGroups 动态获取`cacheGroups`对象成员方法
+ * @const cacheGroups `cacheGroups`对象成员
+ * @const config webpack启动配置
  */
 const path = require('path');
 const fs = require('fs');
@@ -36,13 +39,15 @@ const postcssLoaderPlugins = () => [
 const projectsDir = fs.realpathSync(process.cwd());
 
 // 获取动态配置
-const getEntry = require('./utils/getEntry');
-const htmlConfig = require('./utils/htmlConfig');
+const getEntry = require('./utils/getEntry'); // { Object }
+const htmlConfig = require('./utils/htmlConfig'); // { Array<Object> }
+const getCacheGroups = require('./utils/getCacheGroups'); // { (path: string) => { Object } }
+const cacheGroups = getCacheGroups('src'); // { Object }
 
 const config = (env, argv) => {
   const { mode } = argv; // 当前模式 development | production
   return {
-    // 开发服务
+    // 服务
     devServer: {
       // host: '192.168.1.2', // 域名/IP，默认localhost
       port: 8080, // 端口，默认8080
@@ -69,42 +74,32 @@ const config = (env, argv) => {
       ],
       // 抽离第三方包
       splitChunks: {
-        chunks: 'all',
-        // name (module) {
-        //   console.log(module._name);
-        //   return;
-        // },
-        chunks (chunk) {
-          console.log('↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓');
-          console.log(chunk.name);
-          console.log(chunk.buildMeta);
-          console.log(chunk.buildInfo);
-          console.log(htmlConfig('src'));
-          console.log('↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑');
-          // exclude `my-excluded-chunk`
-          return chunk.name !== 'my-excluded-chunk';
+        // chunks: 'all',
+        // 第三方包独立打包 (按需导入优化模式)
+        cacheGroups: {
+          // 默认抽离包
+          react: {
+            name: 'react', // 文件名
+            test: new RegExp(
+              mode !== 'production'
+                ? 'react.development.js|react-dom.development.js|scheduler.development.js|object-assign'
+                : 'react.production.min.js|react-dom.production.min.js|scheduler.production.min.js|object-assign'
+            ), // 匹配包路径
+            chunks: 'all' // 同步异步全抽离
+          },
+          // 动态成员
+          ...cacheGroups
         }
       }
-      //压缩css
-      // splitChunks: {
-      //   cacheGroups: {
-      //     styles: {
-      //       name: 'styles',
-      //       test: /\.css$/,
-      //       chunks: 'all',
-      //       enforce: true
-      //     }
-      //   }
-      // }
     },
     // 入口
     entry: getEntry('src'),
     // 输出
     output: {
-      filename: '[name].js',
+      filename: '[name]/[name].js',
       path: path.resolve(projectsDir, 'dist'),
-      // chunkFilename: '[name].[chunkhash:5].js',
-      publicPath: mode === 'development' ? '/' : './'
+      chunkFilename: 'lib/[name].js',
+      publicPath: mode !== 'production' ? '/' : './'
     },
     // 模块
     module: {
@@ -128,7 +123,7 @@ const config = (env, argv) => {
           exclude: /node_modules/,
           use: [
             // 生产环境压缩css
-            mode === 'development'
+            mode !== 'production'
               ? { loader: 'style-loader' }
               : MiniCssExtractPlugin.loader,
             {
@@ -188,11 +183,11 @@ const config = (env, argv) => {
       ...htmlConfig('src'),
       new CleanWebpackPlugin(['dist'], {
         root: path.resolve(projectsDir, '.'), // 通过改变root范围越过保护机制 (修改需验证路径，以免造成损失)
-        verbose: true // (true 测试/模拟删除，不删除文件) (false 删除文件)
+        verbose: true // 是否在控制台输出信息
       }),
       new MiniCssExtractPlugin({
-        filename: '[name].css',
-        chunkFilename: '[id].css'
+        filename: '[name]/[name].css',
+        chunkFilename: '[name]/[name].[id].css'
       })
     ]
   };

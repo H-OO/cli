@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './app.scss';
-const person = require('../../images/person.gif');
-
+// const person = require('../../images/person.gif');
+const logo = require('../../images/logo.svg');
 import * as _ from 'lodash';
 import * as axios from 'axios';
 
@@ -14,12 +14,12 @@ class App extends React.Component {
       _.join(['Another', 'module', 'loaded!'], ' ')
     );
     console.log(axios);
-    
   }
   public render(): JSX.Element {
     return (
       <div className="app">
-        <img src={person} alt=""/>
+        <img src={logo} alt="" className="logo" height="80"/>
+        <div>react-tsx</div>
       </div>
     );
   }

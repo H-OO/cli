@@ -1,3 +1,4 @@
+'use strict';
 /**
  * getEntry 动态获取入口配置对象
  * ---
@@ -16,9 +17,7 @@ module.exports = function getEntry(dirName) {
   const dirList = getModuleName(dirPath); // { Array } 目录下的文件夹列表
   const entry = {};
   dirList.forEach((item) => {
-    // 将js打包到对应的文件夹下
-    // entry[`${item}/${item}`] = `${dirPath}/${item}/index`;
-    entry[item] = `${dirPath}/${item}/index`;
+    entry[item] = `${dirPath}/${item}/index`; // js打包后的路径
   })
   return entry; // { Object }
 };
