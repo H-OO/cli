@@ -31,9 +31,12 @@ module.exports = function htmlConfig(dirName) {
     };
     try {
       const { title, keywords, description, chunks } = require(pageInfoPath);
+      const iconPath = path.resolve(projectsDir, 'src/favicon.ico'); // 默认ico路径
+      const icoExists = fs.existsSync(iconPath); // 检查ico是否存在
       // 输出用户配置
       tmpConfig = {
         title: title ? title : 'react-tsx',
+        favicon: icoExists ? iconPath : '',
         meta: {
           keywords: keywords ? keywords : 'webpack4 react tsx',
           description: description ? description : '这是一个webpack4,react,tsx架构'
