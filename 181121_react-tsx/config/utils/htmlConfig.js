@@ -35,22 +35,28 @@ module.exports = function htmlConfig(dirName) {
     const pageInfoPath = path.resolve(projectsDir, `src/${item}/_CONFIG/pageInfo`); // 用户页面配置文件路径
     // 默认`html-webpack-plugin`配置
     let tmpConfig = {
-      title: '',
+      title: 'react-tsx',
       chunks: ['react', item], // 依赖第三方包
       filename: `${item}.html`, // 输出文件名
       template: path.resolve(projectsDir, 'src/template.html') // 模板HTML
     };
     try {
-      const { title, keywords, description, chunks } = require(pageInfoPath);
-      const iconPath = path.resolve(projectsDir, 'src/favicon.ico'); // 默认ico路径
-      const icoExists = fs.existsSync(iconPath); // 检查ico是否存在
+      const { 
+        title='react-tsx',
+        meta={},
+        chunks=[]
+      } = require(pageInfoPath); // 导入模块页面配置对象
+      const keywords = meta.keywords || 'webpack4 react tsx'; // 关键字
+      const description = meta.description || '这是一个webpack4,react,tsx架构'; // 描述
+      const iconPath = path.resolve(projectsDir, 'src/favicon.ico'); // ico 默认路径
+      const icoExists = fs.existsSync(iconPath); // ico 检查icon是否存在
       // 输出用户自定义`html-webpack-plugin`配置
       tmpConfig = {
-        title: title ? title : 'react-tsx',
+        title,
         favicon: icoExists ? iconPath : '',
         meta: {
-          keywords: keywords ? keywords : 'webpack4 react tsx',
-          description: description ? description : '这是一个webpack4,react,tsx架构'
+          keywords,
+          description
         },
         chunks: [...chunks, 'react', item], // 依赖第三方包
         filename: `${item}.html`, // 输出文件名
@@ -61,6 +67,7 @@ module.exports = function htmlConfig(dirName) {
       const errMsg = `error: ${item}模块的'pageInfo.js'无法正常导入，请检查！ ${path.resolve(projectsDir, 'config/utils/htmlConfig.js:39')}`;
       console.log(chalk.red(errMsg));
       console.log(err);
+      buildMsg.modules[item] = 'error: 无配置文件可用'; // 构建日志 收集模块页面配置信息
     }
     htmlArr.push(new HtmlWebpackPlugin(tmpConfig));
   });
