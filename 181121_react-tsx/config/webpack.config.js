@@ -83,7 +83,6 @@ const config = (env, argv) => {
       ],
       // 抽离第三方包
       splitChunks: {
-        // chunks: 'all',
         // 第三方包独立打包 (按需导入优化模式)
         cacheGroups: {
           // 默认抽离包
