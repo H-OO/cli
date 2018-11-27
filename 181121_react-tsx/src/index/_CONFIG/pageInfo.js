@@ -10,5 +10,6 @@ module.exports  = {
     keywords: '关键字',
     description: '模块描述信息'
   },
-  chunks: ['lodash', 'axios']
+  // chunks: ['axios','lodash', 'move-js', 'echarts']
+  chunks: ['axios', 'lodash']
 };

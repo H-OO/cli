@@ -62,6 +62,7 @@ module.exports = function htmlConfig(dirName) {
         filename: `${item}.html`, // 输出文件名
         template: path.resolve(projectsDir, 'src/template.html') // 模板HTML
       };
+      console.log(tmpConfig.chunks);
       buildMsg.modules[item] = tmpConfig; // 构建日志 收集模块页面配置信息
     } catch (err) {
       const errMsg = `error: "${item}"模块页面配置"pageInfo.js"无法正常导入，请检查！ ${path.resolve(projectsDir, `src/${item}/_CONFIG/pageInfo.js`)}\n`;
@@ -75,6 +76,6 @@ module.exports = function htmlConfig(dirName) {
 
   const _buildMsg = JSON.stringify(buildMsg, null, 2); // 构建日志 信息格式化
   logServer.write('build', _buildMsg); // 构建日志 写入
-
+  
   return htmlArr; // { Array<Object> }
 };

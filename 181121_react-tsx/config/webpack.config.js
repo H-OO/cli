@@ -59,7 +59,7 @@ const config = (env, argv) => {
   const { mode } = argv; // 当前环境 development | production
   const buildMsg = `// 当前环境 ${mode}\n`;
   logServer.write('build', buildMsg); // 构建日志 写入
-  return {
+  const _config = {
     // 服务
     devServer: {
       // host: '192.168.1.2', // 域名/IP，默认localhost
@@ -87,8 +87,12 @@ const config = (env, argv) => {
       ],
       // 抽离第三方包
       splitChunks: {
+        minChunks: 1, // 使用次数大于1次就会抽离
+        minSize: 0, // chunk体积大于0就会抽离
         // 第三方包独立打包 (按需导入优化模式)
         cacheGroups: {
+          // 动态成员
+          ...cacheGroups,
           // 默认抽离包
           react: {
             name: 'react', // 文件名
@@ -97,10 +101,10 @@ const config = (env, argv) => {
                 ? 'react.development.js|react-dom.development.js|scheduler.development.js|object-assign'
                 : 'react.production.min.js|react-dom.production.min.js|scheduler.production.min.js|object-assign'
             ), // 匹配包路径
-            chunks: 'all' // 同步异步全抽离
-          },
-          // 动态成员
-          ...cacheGroups
+            chunks: 'all', // 同步异步全抽离
+            priority: -21, // 插入body的顺序，值越小越后插入
+            enforce: true // 强制抽离
+          }
         }
       }
     },
@@ -209,6 +213,8 @@ const config = (env, argv) => {
       })
     ]
   };
+  console.log(_config.optimization.splitChunks);
+  return _config;
 };
 
 module.exports = config;

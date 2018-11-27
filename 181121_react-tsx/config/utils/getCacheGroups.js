@@ -32,12 +32,15 @@ module.exports = function getCacheGroups(dirName) {
     // 'lodash': {
     //   name: 'lodash',
     //   test: new RegExp('lodash'),
-    //   chunks: 'all'
+    //   chunks: 'all',
+    //   minChunks: 1
     // }
     cacheGroups[item] = {
       name: item, // 文件名
       test: new RegExp(item), // 匹配包路径
-      chunks: 'all' // 同步异步全抽离
+      chunks: 'all', // 同步异步全抽离
+      priority: -20, // 插入body的顺序，值越小越后插入
+      enforce: true // 强制抽离
     };
   });
   return cacheGroups; // { Object }
