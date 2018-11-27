@@ -6,6 +6,5 @@
  */
 module.exports  = {
   title: 'm1',
-  // chunks: ['axios', 'lodash']
-  chunks: ['axios', 'lodash']
+  chunks: ['lodash', 'axios']
 };

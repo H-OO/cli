@@ -59,7 +59,7 @@ const config = (env, argv) => {
   const { mode } = argv; // 当前环境 development | production
   const buildMsg = `// 当前环境 ${mode}\n`;
   logServer.write('build', buildMsg); // 构建日志 写入
-  const _config = {
+  return {
     // 服务
     devServer: {
       // host: '192.168.1.2', // 域名/IP，默认localhost
@@ -213,8 +213,6 @@ const config = (env, argv) => {
       })
     ]
   };
-  console.log(_config.optimization.splitChunks);
-  return _config;
 };
 
 module.exports = config;

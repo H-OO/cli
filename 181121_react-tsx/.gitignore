@@ -9,6 +9,9 @@ node_modules
 # mac
 .DS_Store
 
+# vscode
+.vscode
+
 # webpack build
 dist
 

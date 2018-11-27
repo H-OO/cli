@@ -1,11 +1,9 @@
 import * as React from 'react';
 import './app.scss';
-// const person = require('../../images/person.gif');
 const logo = require('../../images/logo.svg');
-import * as axios from 'axios';
 import * as _ from 'lodash';
-// import * as movejs from 'move-js';
-// import * as echarts from 'echarts';
+import * as axios from 'axios';
+
 interface I_state {
   asyncScript?: string;
 }
@@ -38,12 +36,10 @@ class App extends React.Component {
     // `_asyncScript`为抽离包的文件名
   }
   public componentWillMount(): void {
-    console.log(axios);
     console.log(
       _.join(['module', 'loaded!'], ' ')
     );
-    // console.log(movejs);
-    // console.log(echarts);
+    console.log(axios);
   }
   public render(): JSX.Element {
     const { asyncScript }: I_state = this.state;
