@@ -7,6 +7,8 @@
  * @function getModuleName 动态获取模块列表
  * @const projectsDir 获取终端启动的真实根路径
  * @const chalk 终端字体添加颜色
+ * @const LogServer 日志服务
+ * @const logServer 日志服务实例
  */
 
 const path = require('path');
@@ -14,6 +16,10 @@ const fs = require('fs');
 const getModuleName = require('./getModuleName');
 const projectsDir = fs.realpathSync(process.cwd());
 const chalk = require('chalk');
+const LogServer = require('./logServer');
+const logServer = new LogServer({
+  fileName: ['error']
+});
 
 module.exports = function getCacheGroups(dirName) {
   let allChunks = []; // { Array<string> } 收集所有模块依赖包名称
@@ -24,11 +30,10 @@ module.exports = function getCacheGroups(dirName) {
       const { chunks } = require(pageInfoPath); // { Array<string> }
       allChunks.push(...chunks);
     } catch (err) {
-      const errMsg = chalk.red(
-        `error: ${item}模块的'pageInfo.js'无法正常导入，请检查！ ${path.resolve(projectsDir, 'config/utils/htmlConfig.js:24')}`
-      );
-      console.log(errMsg);
-      console.log(err);
+      const errMsg = `error: ${item}模块的'pageInfo.js'无法正常导入，请检查！ ${path.resolve(projectsDir, 'config/utils/getCacheGroups.js:28')}\n`;
+      console.log(chalk.red(errMsg)); // 输出错误信息
+      console.log(err); // 内部错误信息
+      logServer.write('error', errMsg); // 错误日志 写入
     }
   });
   allChunks = Array.from(new Set(allChunks)); // 去重

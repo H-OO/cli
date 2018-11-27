@@ -38,6 +38,13 @@ const postcssLoaderPlugins = () => [
 
 const projectsDir = fs.realpathSync(process.cwd());
 
+// 日志
+const LogServer = require('./utils/logServer');
+const logServer = new LogServer({
+  fileName: ['build', 'error']
+});
+logServer.exists(); // 移除已存在的日志文件
+
 // 获取动态配置
 const getEntry = require('./utils/getEntry'); // { Object }
 const htmlConfig = require('./utils/htmlConfig'); // { Array<Object> }
@@ -45,7 +52,9 @@ const getCacheGroups = require('./utils/getCacheGroups'); // { (path: string) =>
 const cacheGroups = getCacheGroups('src'); // { Object }
 
 const config = (env, argv) => {
-  const { mode } = argv; // 当前模式 development | production
+  const { mode } = argv; // 当前环境 development | production
+  const buildMsg = `// 当前环境 ${mode}\n`;
+  logServer.write('build', buildMsg); // 构建日志 写入
   return {
     // 服务
     devServer: {
