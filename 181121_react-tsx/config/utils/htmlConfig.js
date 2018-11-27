@@ -20,7 +20,7 @@ const projectsDir = fs.realpathSync(process.cwd());
 const chalk = require('chalk');
 const LogServer = require('./logServer');
 const logServer = new LogServer({
-  fileName: ['build']
+  fileName: ['build', 'error']
 });
 
 module.exports = function htmlConfig(dirName) {
@@ -64,10 +64,11 @@ module.exports = function htmlConfig(dirName) {
       };
       buildMsg.modules[item] = tmpConfig; // 构建日志 收集模块页面配置信息
     } catch (err) {
-      const errMsg = `error: "${item}"模块的"pageInfo.js"无法正常导入，请检查！ ${path.resolve(projectsDir, `src/${item}/_CONFIG/pageInfo.js`)}\n`;
+      const errMsg = `error: "${item}"模块页面配置"pageInfo.js"无法正常导入，请检查！ ${path.resolve(projectsDir, `src/${item}/_CONFIG/pageInfo.js`)}\n`;
       console.log(chalk.red(errMsg));
       // console.log(err);
-      buildMsg.modules[item] = 'error: 无配置文件可用'; // 构建日志 收集模块页面配置信息
+      logServer.write('error', errMsg); // 错误日志 写入
+      buildMsg.modules[item] = 'error: 该模块页面配置文件<pageInfo.js>不可用！'; // 构建日志 收集模块页面配置信息
     }
     htmlArr.push(new HtmlWebpackPlugin(tmpConfig));
   });

@@ -10,7 +10,10 @@
  * @const OptimizeCSSAssetsPlugin css压缩
  * @const postcssLoaderPlugins postcss-loader引用相关插件
  * @const projectsDir 获取终端启动的真实根路径
- * @const getEntry entry > 入口配置
+ * @const LogServer 日志服务
+ * @const logServer 日志服务实例
+ * @const getEntry 获取`entry`入口成员方法
+ * @const entry `entry`入口成员
  * @const htmlConfig plugin > 模块`html-webpack-plugin`配置
  * @function getCacheGroups 动态获取`cacheGroups`对象成员方法
  * @const cacheGroups `cacheGroups`对象成员
@@ -46,7 +49,8 @@ const logServer = new LogServer({
 logServer.exists(); // 移除已存在的日志文件
 
 // 获取动态配置
-const getEntry = require('./utils/getEntry'); // { Object }
+const getEntry = require('./utils/getEntry'); // { (dirName: String) => { Object } }
+const entry = getEntry('src') || {}; // { Object }
 const htmlConfig = require('./utils/htmlConfig'); // { Array<Object> }
 const getCacheGroups = require('./utils/getCacheGroups'); // { (path: string) => { Object } }
 const cacheGroups = getCacheGroups('src'); // { Object }
@@ -101,7 +105,7 @@ const config = (env, argv) => {
       }
     },
     // 入口
-    entry: getEntry('src'),
+    entry,
     // 输出
     output: {
       filename: '[name]/[name].js',
