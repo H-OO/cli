@@ -128,6 +128,12 @@ const config = (env, argv) => {
           ]
         },
         {
+          test: /\.tsx?$/,
+          enforce: 'pre', // 前置执行
+          exclude: /node_modules/,
+          use: ['tslint-loader']
+        },
+        {
           test: /\.(scss|css)$/,
           exclude: /node_modules/,
           use: [
