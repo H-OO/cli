@@ -41,7 +41,7 @@ module.exports = function htmlConfig(dirName) {
       template: path.resolve(projectsDir, 'src/template.html') // 模板HTML
     };
     try {
-      const { 
+      const {
         title='react-tsx',
         meta={},
         chunks=[]
@@ -64,9 +64,9 @@ module.exports = function htmlConfig(dirName) {
       };
       buildMsg.modules[item] = tmpConfig; // 构建日志 收集模块页面配置信息
     } catch (err) {
-      const errMsg = `error: ${item}模块的'pageInfo.js'无法正常导入，请检查！ ${path.resolve(projectsDir, 'config/utils/htmlConfig.js:39')}`;
+      const errMsg = `error: "${item}"模块的"pageInfo.js"无法正常导入，请检查！ ${path.resolve(projectsDir, `src/${item}/_CONFIG/pageInfo.js`)}\n`;
       console.log(chalk.red(errMsg));
-      console.log(err);
+      // console.log(err);
       buildMsg.modules[item] = 'error: 无配置文件可用'; // 构建日志 收集模块页面配置信息
     }
     htmlArr.push(new HtmlWebpackPlugin(tmpConfig));

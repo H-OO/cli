@@ -23,19 +23,19 @@ const logServer = new LogServer({
 
 module.exports = function getCacheGroups(dirName) {
   let allChunks = []; // { Array<string> } 收集所有模块依赖包名称
-
   getModuleName(dirName).forEach((item) => {
     const pageInfoPath = path.resolve(projectsDir, `src/${item}/_CONFIG/pageInfo`); // 用户页面配置文件路径
     try {
       const { chunks } = require(pageInfoPath); // { Array<string> }
       allChunks.push(...chunks);
     } catch (err) {
-      const errMsg = `error: ${item}模块的'pageInfo.js'无法正常导入，请检查！ ${path.resolve(projectsDir, 'config/utils/getCacheGroups.js:28')}\n`;
+      const errMsg = `error: "${item}"模块的"pageInfo.js"无法正常导入，请检查！ ${path.resolve(projectsDir, `src/${item}/_CONFIG/pageInfo.js`)}\n`;
       console.log(chalk.red(errMsg)); // 输出错误信息
-      console.log(err); // 内部错误信息
+      // console.log(err); // 内部错误信息
       logServer.write('error', errMsg); // 错误日志 写入
     }
   });
+
   allChunks = Array.from(new Set(allChunks)); // 去重
 
   // 动态添加`cacheGroups`成员
