@@ -47,6 +47,7 @@
   "dependencies": {
     "@types/axios": "^0.14.0",
     "@types/lodash": "^4.14.118",
+    "move-js": "^0.5.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3"
   }

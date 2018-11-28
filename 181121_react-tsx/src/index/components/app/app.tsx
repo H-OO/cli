@@ -34,6 +34,7 @@ class App extends React.Component {
       });
     }, '_asyncScript');
     // `_asyncScript`为抽离包的文件名
+    // ==============================================
   }
   public componentWillMount(): void {
     console.log(

@@ -18,7 +18,8 @@ module.exports = function getModuleName(dir) {
     readdir.forEach(item => {
       const currentDir = path.resolve(dir, item); // { String } 一级文件夹路径
       const isDirectory = fs.statSync(currentDir).isDirectory(); // { Boolean } 判断是否为文件夹
-      if (isDirectory) {
+      const isTypingsDir = currentDir.includes('typings'); // { Boolean } 判断是否为`typings`文件夹，忽略该文件夹
+      if (isDirectory && !isTypingsDir) {
         moduleArr.push(item); // 将文件夹名追加进空数组中
       }
     });

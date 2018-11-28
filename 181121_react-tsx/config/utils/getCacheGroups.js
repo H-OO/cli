@@ -33,7 +33,8 @@ module.exports = function getCacheGroups(dirName) {
     //   name: 'lodash',
     //   test: new RegExp('lodash'),
     //   chunks: 'all',
-    //   minChunks: 1
+    //   priority: -20, // 插入body的顺序，值越小越后插入
+    //   enforce: true // 强制抽离
     // }
     cacheGroups[item] = {
       name: item, // 文件名
