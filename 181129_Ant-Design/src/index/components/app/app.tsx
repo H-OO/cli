@@ -3,9 +3,6 @@ import './app.scss';
 const logo = require('../../images/logo.svg');
 import * as _ from 'lodash';
 import * as axios from 'axios';
-// import * as echarts from 'echarts';
-// import { Button } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 
 interface I_state {
   asyncScript?: string;
@@ -28,40 +25,33 @@ class App extends React.Component {
     // })
     // ==============================================
     // 抽离异步脚本：有效方式【可抽离】
-    const _require: { [x: string]: any } = require; // 为`ensure`添加声明
-    _require.ensure(
-      [],
-      () => {
-        const asyncScript = require('../../tools/asyncScript');
-        const { default: data } = asyncScript;
-        this.setState({
-          asyncScript: data.test
-        });
-      },
-      '_asyncScript'
-    );
+    const _require: { [x: string]: any; } = require; // 为`ensure`添加声明
+    _require.ensure([], () => {
+      const asyncScript = require('../../tools/asyncScript');
+      const { default: data } = asyncScript;
+      this.setState({
+        asyncScript: data.test
+      });
+    }, '_asyncScript');
     // `_asyncScript`为抽离包的文件名
     // ==============================================
   }
   public componentWillMount(): void {
-    console.log(_.join(['module', 'loaded!'], ' '));
+    console.log(
+      _.join(['module', 'loaded!'], ' ')
+    );
     console.log(axios);
-    // console.log(echarts);
   }
   public render(): JSX.Element {
     const { asyncScript }: I_state = this.state;
     return (
       <div className="app">
-        <img src={logo} alt="" className="logo" height="80" />
+        <img src={logo} alt="" className="logo" height="80"/>
         <div>react-tsx</div>
-        <br />
+        <br/>
         <button onClick={this.getAsyncScript}>asyncScript</button>
-        <br />
+        <br/>
         <div>{asyncScript}</div>
-        <br />
-        <Button variant="contained" color="primary">
-          Hello World
-        </Button>
       </div>
     );
   }

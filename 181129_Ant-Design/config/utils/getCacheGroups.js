@@ -35,17 +35,12 @@ module.exports = function getCacheGroups(dirName) {
     //   chunks: 'all',
     //   priority: -20, // 插入body的顺序，值越小越后插入
     //   enforce: true // 强制抽离
-    //   minChunks: 1, // 使用次数大于1次就会抽离 (可不加)
-    //   minSize: 0, // chunk体积大于0就会抽离 (可不加)
     // }
-    // console.log(item);
-    cacheGroups[item] = { // 属性名与包引用无关联
-      name: item, // 路径+文件名(错误配置能被抽离)(需与chunk名一致，否则无法生成script标签)
-      test: new RegExp(
-        item.includes('/') ? `${item.replace(/\//g, '.+')}[^0-9a-zA-Z]` + '' : `${item}[^0-9a-zA-Z]` // '**/**/*' webpack 内部会转义成 '**\\/**/\\/*' 导致正则无法匹配
-      ), // 匹配包路径
+    cacheGroups[item] = {
+      name: item, // 文件名
+      test: new RegExp(item), // 匹配包路径
       chunks: 'all', // 同步异步全抽离
-      priority: -10, // 插入body的顺序，值越小越后插入
+      priority: -20, // 插入body的顺序，值越小越后插入
       enforce: true // 强制抽离
     };
   });

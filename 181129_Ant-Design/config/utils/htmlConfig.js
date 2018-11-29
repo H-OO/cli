@@ -39,14 +39,13 @@ module.exports = function htmlConfig(dirName) {
       chunks: ['react', item], // 依赖第三方包
       filename: `${item}.html`, // 输出文件名
       template: path.resolve(projectsDir, 'src/template.html') // 模板HTML
-    };    
+    };
     try {
       const {
         title='react-tsx',
         meta={},
         chunks=[]
       } = require(pageInfoPath); // 导入模块页面配置对象
-      console.log(chunks);
       const keywords = meta.keywords || 'webpack4 react tsx'; // 关键字
       const description = meta.description || '这是一个webpack4,react,tsx架构'; // 描述
       const iconPath = path.resolve(projectsDir, 'src/favicon.ico'); // ico 默认路径
@@ -76,6 +75,6 @@ module.exports = function htmlConfig(dirName) {
 
   const _buildMsg = JSON.stringify(buildMsg, null, 2); // 构建日志 信息格式化
   logServer.write('build', _buildMsg); // 构建日志 写入
-  // console.log(htmlArr); // debug
+  
   return htmlArr; // { Array<Object> }
 };

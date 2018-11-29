@@ -4,4 +4,3 @@
  * 注意：环境模块声明无法指定相对模块名；例如 declare module '../moduleName'，声明无效。
  */
 // declare module 'move-js';
-declare module 'fetch';

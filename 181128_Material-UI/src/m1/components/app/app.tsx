@@ -3,7 +3,13 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import * as axios from 'axios';
 
-import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
+// import {List, ListItem, ListItemText} from '@material-ui/core';
+
+// import Test1 from '../test1/test1';
 
 class App extends React.Component {
   public constructor(arg: any) {
@@ -16,9 +22,15 @@ class App extends React.Component {
   public render(): JSX.Element {
     return (
       <div className="app">
-        <Button variant="contained" color="primary">
-          Hello World
-        </Button>
+        <List component="nav">
+          <ListItem button>
+            <ListItemText primary="Inbox" />
+          </ListItem>
+          <ListItem button>
+            <ListItemText primary="Drafts" />
+          </ListItem>
+        </List>
+        {/* <Test1 /> */}
       </div>
     );
   }
