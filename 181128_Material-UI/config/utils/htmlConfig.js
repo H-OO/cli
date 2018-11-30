@@ -46,7 +46,7 @@ module.exports = function htmlConfig(dirName) {
         meta={},
         chunks=[]
       } = require(pageInfoPath); // 导入模块页面配置对象
-      console.log(chunks);
+      // console.log(chunks); // debug
       const keywords = meta.keywords || 'webpack4 react tsx'; // 关键字
       const description = meta.description || '这是一个webpack4,react,tsx架构'; // 描述
       const iconPath = path.resolve(projectsDir, 'src/favicon.ico'); // ico 默认路径

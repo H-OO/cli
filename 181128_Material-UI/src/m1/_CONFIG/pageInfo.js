@@ -6,6 +6,7 @@
  */
 module.exports  = {
   title: 'm1',
-  chunks: ['lodash', 'axios', '@material-ui']
+  // chunks: ['lodash', 'axios', '@material-ui']
   // chunks: ['lodash', 'axios', '@material-ui/core/List', '@material-ui/core/ListItem', '@material-ui/core/ListItemText']
+  chunks: ['node_modules', 'react', 'lodash']
 };

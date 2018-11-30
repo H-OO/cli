@@ -38,7 +38,9 @@ module.exports = function getCacheGroups(dirName) {
     // }
     cacheGroups[item] = {
       name: item, // 文件名
-      test: new RegExp(item), // 匹配包路径
+      test: new RegExp(
+        item.includes('/') ? `${item.replace(/\//g, '.+')}[^0-9a-zA-Z]` + '' : `${item}[^0-9a-zA-Z]` // '**/**/*' webpack 内部会转义成 '**\\/**/\\/*' 导致正则无法匹配
+      ), // 匹配包路径
       chunks: 'all', // 同步异步全抽离
       priority: -20, // 插入body的顺序，值越小越后插入
       enforce: true // 强制抽离

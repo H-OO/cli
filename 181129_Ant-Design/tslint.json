@@ -1,9 +1,0 @@
-{
-  "rules": {
-    "no-var-keyword": true,
-    "triple-equals": [true, "allow-null-check"]
-  },
-  "linterOptions": {
-    "exclude": ["**/node_modules/**"]
-  }
-}

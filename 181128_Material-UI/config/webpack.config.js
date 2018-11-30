@@ -87,23 +87,33 @@ const config = (env, argv) => {
       ],
       // 抽离第三方包
       splitChunks: {
-        // 第三方包独立打包 (按需导入优化模式)
         cacheGroups: {
-          // 动态成员
-          ...cacheGroups,
-          // 默认抽离包
-          react: {
-            name: 'react', // 文件名
-            test: new RegExp(
-              mode !== 'production'
-                ? 'react.development.js|react-dom.development.js|scheduler.development.js|object-assign'
-                : 'react.production.min.js|react-dom.production.min.js|scheduler.production.min.js|object-assign'
-            ), // 匹配包路径
-            chunks: 'all', // 同步异步全抽离
-            priority: -20, // 插入body的顺序，值越小越后插入
-            enforce: true // 强制抽离
+          test (chunks) {
+            console.log(chunks);
+            return true;
           }
         }
+        // test (chunks) {
+        //   console.log(chunks);
+        //   return true;
+        // }
+        // 第三方包独立打包 (按需导入优化模式)
+        // cacheGroups: {
+        //   // 动态成员
+        //   ...cacheGroups,
+        //   // 默认抽离包
+        //   react: {
+        //     name: 'react', // 文件名
+        //     test: new RegExp(
+        //       mode !== 'production'
+        //         ? 'react.development.js|react-dom.development.js|scheduler.development.js|object-assign'
+        //         : 'react.production.min.js|react-dom.production.min.js|scheduler.production.min.js|object-assign'
+        //     ), // 匹配包路径
+        //     chunks: 'all', // 同步异步全抽离
+        //     priority: -20, // 插入body的顺序，值越小越后插入
+        //     enforce: true // 强制抽离
+        //   }
+        // }
       }
     },
     // 入口
@@ -211,7 +221,7 @@ const config = (env, argv) => {
       })
     ]
   };
-  console.log(_config.optimization.splitChunks.cacheGroups);
+  // console.log(_config.optimization.splitChunks.cacheGroups); // debug
   return _config;
 };
 
