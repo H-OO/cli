@@ -21,6 +21,19 @@ class App extends React.Component {
     this.foo().then((res) => {
       console.log(res);
     });
+    // es6 proxy 对象赋值拦截
+    const obj: any = new Proxy({}, {
+      get: function (target, key: any, receiver) {
+        console.log(`getting ${key}!`);
+        return Reflect.get(target, key, receiver);
+      },
+      set: function (target, key: any, value, receiver) {
+        console.log(`setting ${key}!`);
+        return Reflect.set(target, key, value, receiver);
+      }
+    });
+    console.log(obj.count = 2);
+    console.log(obj.count);
   }
   public render(): JSX.Element {
     return (
