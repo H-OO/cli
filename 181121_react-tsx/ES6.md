@@ -14,7 +14,7 @@ includes、startsWith、endsWith 都可传入两个参数，表示开始检索�
 `startsWith`与`includes`使用第二个参数`n`，表示从第`n`个位置开始检索直到原字符串结束  
 `endsWith`使用第二个参数`n`，表示从原字符串里的前`n`个字符串内进行检索
 
-# 正则
+# 正则扩展
 
 **正则构造函数**
 
@@ -101,9 +101,101 @@ month // 12
 day // 04
 
 // 通过`\k<name>`复用`(?<name>)`
-const r: RegExp = /(?<name>abc)-\k<name>/; // 等同于 /(?<t>abc)-(?<t>abc)/
+const r: RegExp = /(?<name>abc)-\k<name>/; // 等同于 /(?<name>abc)-(?<name>abc)/
 r.test('abc-abc') // true
 r.test('abc-ab') // false
 ```
 
 # Number 扩展
+
+**二进制与八进制表示法**
+
+- 0b 二进制
+- 0o 八进制
+
+```js
+0b111110111 === 503 // true
+0o767 === 503 // true
+```
+
+---
+
+**非十进制转十进制**
+
+```js
+Number('0b111') // 7
+Number('0o10') // 8
+```
+
+---
+
+**属性与方法**
+
+- Number.isFinite() // 判断参数是否为有限数值，{ (num: number) => boolean }
+- Number.isNaN() // 判断参数是否为NaN，{ (num: number) => boolean }
+- Number.parseInt() // 取整，{ (num: number|string) => number }
+- Number.parseFloat() // 取浮点数，{ (num: number|string) => number }
+- Number.isInteger() // 判断参数是否为整数，{ (num: number) => boolean }
+- Number.isSafeInteger() // 判断参数是否落在精确区范围内的整数，{ (num: number) => boolean }
+- Number.MAX_SAFE_INTEGER // 最大精确值极限
+- Number.MIN_SAFE_INTEGER // 最小精确值极限
+
+`Number.isFinite()`和`Number.isNaN()`与传统的全局方法`isFinite()`和`isNaN()`的区别在于：只对数值有效。
+
+```js
+isFinite('25') // true
+Number.isFinite('25') // false
+Number.isFinite(25) // true
+
+isNaN('NaN') // true
+Number.isNaN('NaN') // false
+Number.isNaN(NaN) // true
+// 传统的全局方法会先调用`Number()`尝试将参数转成数值类型
+
+Number.parseInt(123.23) // 123
+Number.parseInt('123.23') // 123
+Number.parseFloat('123.23') // 123.23
+Number.parseFloat('123.23#') // 123.23
+```
+
+# Math 扩展
+
+- trunc // 去除参数数值的小数部分，{ (num: number) => number }
+- sign // 判断参数是正数、负数、还是零，{ (num: number) => number }
+- cbrt // 计算参数数值的立方根，{ (num: number) => number }
+- hypot // 返回所有参数的平方和的平方根，{ (num: number) => number }
+
+```js
+Math.trunc(123.456) // 123
+Math.trunc('123.456') // 123
+Math.trunc(true) // 1
+Math.trunc(false) // 0
+Math.trunc(null) // 0
+Math.trunc('NaN') // NaN
+Math.trunc(NaN) // NaN
+
+Math.sign(-5) // -1
+Math.sign(5) // +1
+Math.sign(0) // +0
+Math.sign(-0) // -0
+Math.sign(NaN) // NaN
+Math.sign('') // 0
+Math.sign(true) // +1
+Math.sign(false) // 0
+Math.sign(null) // 0
+Math.sign('5') // +1
+Math.sign('foo') // NaN
+Math.sign() // NaN
+Math.sign(undefined) // NaN
+
+Math.cbrt(8) // 2
+```
+
+# 数组的扩展
+
+**复制数组**
+
+```ts
+const arr1: Array<number> = [1, 2];
+const arr2: Array<number> = [...arr1];
+```

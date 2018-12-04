@@ -35,9 +35,14 @@ class App extends React.Component {
     // console.log(obj.count = 2);
     // console.log(obj.count);
 
-    const r = /(?<name>abc)-\k<name>/;
-    const str = 'abc-abc';
-    console.log(r.test(str));
+    // const r = /(?<name>abc)-\k<name>/;
+    // const str = 'abc-abc';
+    // console.log(r.test(str));
+
+    // console.log(Math.trunc('123.456'));
+    // console.log(2 ** 3);
+
+    
   }
   public render(): JSX.Element {
     return (
