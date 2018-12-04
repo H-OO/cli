@@ -35,31 +35,9 @@ class App extends React.Component {
     // console.log(obj.count = 2);
     // console.log(obj.count);
 
-    // 字符串
-    // const str = 'abc';
-    // const res = str.match(/a/);
-    // console.log(res);
-    // console.log(Array.isArray(res));
-    // const arr = []
-    // const res = str.search(/c/);
-    // console.log(res);
-    // const r: string = 'c';
-    // const str: (string|RegExp) = 'abc';
-    // const res = str.match(r);
-    // console.log(res);
-    // const foo = (r: string|number) => {};
-
-    // const res = /a/.exec('ab');
-    // console.log(res);
-    // res.forEach((item) => {
-    //   console.log(item);
-    // });
-    // for (let k in res) {
-    //   console.log(res[k]);
-    // }
-
-    const res = 'abc';
-    console.log(/d{1}/.test(res));
+    const r = /(?<name>abc)-\k<name>/;
+    const str = 'abc-abc';
+    console.log(r.test(str));
   }
   public render(): JSX.Element {
     return (

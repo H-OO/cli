@@ -24,12 +24,6 @@ const r: RegExp | string = new RegExp('xxx');
 
 ---
 
-**flags 属性**
-
-通过`.flags`获取正则表达式修饰符，例如：/abc/g.flags // g
-
----
-
 **字符串正则方法**
 
 - match // 检索字符串，{ (r: RegExp|string) => Array<string> }
@@ -49,7 +43,8 @@ const r: RegExp | string = new RegExp('xxx');
 **修饰符**
 
 - u // Unicode 模式，用于处理大于`\uFFFF`的 Unicode 字符
-- y //
+- y // 粘连修饰符，用于全局匹配，与`g`修饰符不同在于，匹配必须从剩余部分的第一个位置开始
+- s // 使`.`可以匹配任意单个字符，eg: /a./s.test('a\n') // true
 
 ---
 
@@ -79,4 +74,36 @@ const unic: boolean = /\u{61}/u.test('a'); // true
 
 **RegExp 属性**
 
-- unicode // 是否设置了`u`修饰符
+- flags // 获取正则表达式修饰符，返回{ string }
+- unicode // 是否设置了`u`修饰符，返回{ boolean }
+- sticky // 是否设置了`y`修饰符，返回{ boolean }
+
+---
+
+**具名组匹配**
+
+可用于匹配具有固定结构的字符串
+
+```ts
+// 基本使用
+const r: RegExp = /(\d{3})-(\d{4})-(\d{4})/;
+const phone: string = '150-0000-0000';
+r.exec(phone) // ['150-0000-0000', '150', '0000', '0000', ...]
+
+// 增加可读性，添加组名，格式：?<name>
+const r: RegExp = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+const date: string = '2018-12-04';
+r.exec(date) // ['2018-12-04','2018','12','04',groups:{year:'2018',month:'12',day:'04'},...]
+// 解构赋值
+const {groups: {year, month, day}}: any = r.exec(date);
+year // 2018
+month // 12
+day // 04
+
+// 通过`\k<name>`复用`(?<name>)`
+const r: RegExp = /(?<name>abc)-\k<name>/; // 等同于 /(?<t>abc)-(?<t>abc)/
+r.test('abc-abc') // true
+r.test('abc-ab') // false
+```
+
+# Number 扩展
