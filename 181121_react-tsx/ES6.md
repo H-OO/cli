@@ -191,7 +191,7 @@ Math.sign(undefined) // NaN
 Math.cbrt(8) // 2
 ```
 
-# 数组的扩展
+# Array 扩展
 
 **扩展运算符复制数组**
 
