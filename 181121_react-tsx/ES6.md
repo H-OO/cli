@@ -193,9 +193,64 @@ Math.cbrt(8) // 2
 
 # 数组的扩展
 
-**复制数组**
+**扩展运算符复制数组**
 
 ```ts
+// 简单使用
 const arr1: Array<number> = [1, 2];
 const arr2: Array<number> = [...arr1];
+
+// 数组解构赋值 (在数组解构中扩展运算符必须放在最末)
+const [first, ...rest] = [0, 1, 2, 3];
+first // 0
+rest // [1,2,3]
 ```
+
+---
+
+**遍历 HTMLCollection**
+
+```ts
+// <ul>
+//   <li>1</li>
+//   <li>2</li>
+//   <li>3</li>
+// </ul>
+const ulNode: HTMLUListElement = document.querySelector('ul');
+const lis: HTMLCollection = ulNode.children;
+// 遍历
+Array.apply(null, lis).forEach((item: HTMLLIElement, i: number) => {
+  // item
+})
+```
+
+---
+
+**方法**
+
+- Array.from // 将两类对象`array-like object | iterable(Set&Map)`转为真正的数组，{ (p1, p2, p3) => Array<any> }
+- Array.of // 将参数转换成数组，弥补`Array()与new Array()`方法的不足，{ (args: any) => Array<any> }
+- Array.prototype.copyWithin // 将指定位置的成员复制其他位置，{ (target: number, start: number = 0, end: number = this.length) => Array<any> }
+- Array.prototype.find // 找出第一个符合条件的数组成员，不符合条件则返回`undefined`；{ ((n: number, i: number, arr: 当前数组) => n < 0) => number }
+- Array.prototype.findIndex // 找出第一个符合条件的数组成员对应的下标，不符合条件则返回`-1`；{ ((n: number, i: number, arr: 当前数组) => n < 0) => number }
+
+```ts
+// Array.from
+const arr: Array<number|undefined> = [1, , 2, , 3];
+const arr2: Array<number> = Array.from(arr, item => {
+  console.log(item);
+  return item || 0;
+});
+arr // [1, undefined, 2, undefined, 3]
+arr2 // [1, 0, 2, 0, 3]
+
+// Array.prototype.copyWithin
+const arr: Array<number> = [1, 2, 3, 4, 5];
+arr.copyWithin(0, 2, 4) // [3, 4, 3, 4, 5]  参数解析：(0, 2)指修改的位置[0, 2]，(2, 4)指复制的位置[2, 4]
+
+// Array.prototype.find
+const arr: Array<number> = [1, -2, 3, 4, 5];
+arr.find((n) => n < 0) // -2，全部不满足条件则返回 undefined
+```
+
+---
