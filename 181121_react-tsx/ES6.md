@@ -1,6 +1,6 @@
 v181203
 
-# 字符串扩展
+# String 扩展
 
 - includes // 检索参数字符串是否存在，{ (str: string, n: number) => boolean }
 - startsWith // 检索参数字符串是否在原字符串的头部，{ (str: string, n: number) => boolean }
@@ -14,7 +14,7 @@ includes、startsWith、endsWith 都可传入两个参数，表示开始检索�
 `startsWith`与`includes`使用第二个参数`n`，表示从第`n`个位置开始检索直到原字符串结束  
 `endsWith`使用第二个参数`n`，表示从原字符串里的前`n`个字符串内进行检索
 
-# 正则扩展
+# RegExp 扩展
 
 **正则构造函数**
 
@@ -113,7 +113,7 @@ r.test('abc-ab') // false
 - 0b 二进制
 - 0o 八进制
 
-```js
+```js es6
 0b111110111 === 503 // true
 0o767 === 503 // true
 ```
@@ -122,7 +122,7 @@ r.test('abc-ab') // false
 
 **非十进制转十进制**
 
-```js
+```js es6
 Number('0b111') // 7
 Number('0o10') // 8
 ```
@@ -142,7 +142,7 @@ Number('0o10') // 8
 
 `Number.isFinite()`和`Number.isNaN()`与传统的全局方法`isFinite()`和`isNaN()`的区别在于：只对数值有效。
 
-```js
+```js es6
 isFinite('25') // true
 Number.isFinite('25') // false
 Number.isFinite(25) // true
@@ -165,7 +165,7 @@ Number.parseFloat('123.23#') // 123.23
 - cbrt // 计算参数数值的立方根，{ (num: number) => number }
 - hypot // 返回所有参数的平方和的平方根，{ (num: number) => number }
 
-```js
+```js es6
 Math.trunc(123.456) // 123
 Math.trunc('123.456') // 123
 Math.trunc(true) // 1
@@ -230,9 +230,29 @@ Array.apply(null, lis).forEach((item: HTMLLIElement, i: number) => {
 
 - Array.from // 将两类对象`array-like object | iterable(Set&Map)`转为真正的数组，{ (p1, p2, p3) => Array<any> }
 - Array.of // 将参数转换成数组，弥补`Array()与new Array()`方法的不足，{ (args: any) => Array<any> }
-- Array.prototype.copyWithin // 将指定位置的成员复制其他位置，{ (target: number, start: number = 0, end: number = this.length) => Array<any> }
-- Array.prototype.find // 找出第一个符合条件的数组成员，不符合条件则返回`undefined`；{ ((n: number, i: number, arr: 当前数组) => n < 0) => number }
-- Array.prototype.findIndex // 找出第一个符合条件的数组成员对应的下标，不符合条件则返回`-1`；{ ((n: number, i: number, arr: 当前数组) => n < 0) => number }
+
+```ts
+// Array.from
+const arr: Array<number|undefined> = [1, , 2, , 3];
+const arr2: Array<number> = Array.from(arr, item => {
+  console.log(item);
+  return item || 0;
+});
+arr // [1, undefined, 2, undefined, 3]
+arr2 // [1, 0, 2, 0, 3]
+```
+
+---
+
+**实例原型方法**
+
+- copyWithin // 将指定位置的成员复制其他位置，{ (target: number, start: number = 0, end: 当前数组长度) => Array<any> }
+- find // 找出第一个符合条件的数组成员，不符合条件则返回`undefined`；{ ((n: number, i: number, arr: 当前数组) => n < 0) => number }
+- findIndex // 找出第一个符合条件的数组成员对应的下标，不符合条件则返回`-1`；{ ((n: number, i: number, arr: 当前数组) => n < 0) => number }
+- fill // 将参数填充进数组中，数组中已有的元素会被全部抹去，{ (p1: any, p2: number, p3: number) => Array<any> } `[p2, p3)`
+- includes // 判断参数是否存在，{ (p1, p2, p3) => boolean }
+- flat // 默认将二维数组转一维数组，嵌套层级可通过参数控制，默认为1，{ (zIndex: number) => Array<any> }
+- flatMap // 对每一个成员执行一个函数，然后对返回值执行 flat() 方法
 
 ```ts
 // Array.from
@@ -244,13 +264,92 @@ const arr2: Array<number> = Array.from(arr, item => {
 arr // [1, undefined, 2, undefined, 3]
 arr2 // [1, 0, 2, 0, 3]
 
-// Array.prototype.copyWithin
+// copyWithin
 const arr: Array<number> = [1, 2, 3, 4, 5];
 arr.copyWithin(0, 2, 4) // [3, 4, 3, 4, 5]  参数解析：(0, 2)指修改的位置[0, 2]，(2, 4)指复制的位置[2, 4]
 
-// Array.prototype.find
+// find
 const arr: Array<number> = [1, -2, 3, 4, 5];
 arr.find((n) => n < 0) // -2，全部不满足条件则返回 undefined
+
+// findIndex
+const arr: Array<number> = [1, -2, 3, 4, 5];
+arr.find((n) => n < 0) // 1，全部不满足条件则返回 -1
+
+// fill
+const arr: Array<number> = [1, 2, 3];
+arr.fill(6, 1, 2) // [1, 6, 3]
+
+// includes
+const arr: Array<number> = [1, 2, NaN];
+arr.includes(NaN) // true
+arr.indexOf(NaN) // -1 原因：内部使用 ===，导致对NaN的误判
+
+// flat (ts中需添加签名)
+const arr: Array<any> = [1, 2, [3, 4, [5, 6]]];
+arr.flat(2) // [1, 2, 3, 4, 5, 6]
+
+// flatMap (ts中需添加签名)
+const arr: Array<any> = [1, 3, 5];
+arr.flatMap((x) => [x, x * 2]) // [1, 2, 3, 6, 5, 10]，等同于 [[1, 2], [3, 6], [5, 10]].flat(1)
+// 可传三个参数 (currentValue, index, array)，分别为当前数组成员、起始位置下标、原数组
+
 ```
 
 ---
+
+**数组空位**
+
+- ES5 forEach、filter、reduce、every、some、map 都会跳过空位，join、toString 将空位视为 undefined
+- ES6 from、...、copyWithin、fill 不忽略空位，会将数组空位转成 undefined
+
+---
+
+# Object 扩展
+
+**表达式对象属性名**
+
+```js es6
+const propKey = 'foo';
+let obj = {
+  [propKey]: true,
+  ['a' + 'bc']: 123
+};
+```
+
+---
+
+**属性的遍历方法**
+
+- for...in
+- Object.keys // 获取参数对象的属性名（不含不可枚举属性），存放到数组中返回
+- Object.getOwnPropertyNames // 获取参数对象的属性名（含不可枚举属性），存放到数组中返回
+- Object.getOwnPropertySymbols // 获取参数对象自身的所有Symbol属性名，存放到数组中返回
+- Reflect.ownKeys // 获取参数对象自身的所有属性名，存放到数组中返回
+
+---
+
+**对象方法**
+
+- Object.assign // 属性为对象就是浅拷贝，其他为深拷贝，{ () => object }
+- Object.create // 创建一个新对象，将原型对象替换成参数对象
+- Object.is // 
+
+---
+
+# 扩展运算符
+
+```js
+// Array
+const [a, ...b] = [1, 2, 3];
+a // 1
+b // [2, 3]
+
+// Object
+const o1 = {a: 1};
+const o2 = {b: 2};
+const o = {...o1, ...o2};
+o // {a:1, b:2}
+```
+注意：扩展运算符不能访问原型对象上的成员
+

@@ -21,18 +21,22 @@ class App extends React.Component {
     return res;
   }
   public componentDidMount(): void {
-    // [1, 5, 10, 15].findIndex
-    console.log([1, -5, 10, 15].findIndex((n) => n < -10));
+    const obj1 = { x: {a: 1}, y: [2]};
+    const o = Object.assign({}, obj1);
+    o.x.a = 2;
+    o.y = [1];
+    console.log(o);
+    console.log(obj1);
   }
   public render(): JSX.Element {
     const { ulNode }: I_state = this.state;
     return (
       <div className="app">
-        <ul ref={ulNode}>
+        {/* <ul ref={ulNode}>
           <li>1</li>
           <li>2</li>
           <li>3</li>
-        </ul>
+        </ul> */}
       </div>
     );
   }
