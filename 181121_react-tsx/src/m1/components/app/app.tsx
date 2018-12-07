@@ -21,12 +21,7 @@ class App extends React.Component {
     return res;
   }
   public componentDidMount(): void {
-    const obj1 = { x: {a: 1}, y: [2]};
-    const o = Object.assign({}, obj1);
-    o.x.a = 2;
-    o.y = [1];
-    console.log(o);
-    console.log(obj1);
+    
   }
   public render(): JSX.Element {
     const { ulNode }: I_state = this.state;

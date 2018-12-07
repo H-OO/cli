@@ -333,7 +333,14 @@ let obj = {
 
 - Object.assign // 属性为对象就是浅拷贝，其他为深拷贝，{ () => object }
 - Object.create // 创建一个新对象，将原型对象替换成参数对象
-- Object.is // 
+- Object.is // 比较两个参数是否全等，{ (p1, p2) => boolean }
+- Object.getOwnPropertyDescriptors // 获取对象属性的描述对象
+- Object.setPrototypeOf // 设置对象的原型对象，p1为目标对象，p2为原型对象，{ (p1, p2) => object }
+- Object.keys // 获取参数对象的属性名（不含不可枚举属性），存放到数组中返回
+- Object.values // 获取参数对象的属性值（不含不可枚举属性），存放到数组中返回
+- Object.entries // 获取参数对象的属性与属性值（不含不可枚举属性），[属性名, 属性值]，存放到数组中返回
+- Object.fromEntries // Object.entries的逆操作
+
 
 ---
 
@@ -353,3 +360,37 @@ o // {a:1, b:2}
 ```
 注意：扩展运算符不能访问原型对象上的成员
 
+---
+
+# Set
+
+类似于数组，但成员都是唯一的；通过`add`方法向 Set 结构加入成员
+
+```ts
+// 用于数组去重
+const set: Set<number> = new Set([1, 1, 2, 2, 3, 3]);
+[...set] // [1, 2, 3]
+```
+
+注意：tsconfig `downlevelIteration: true` 才可使用遍历
+
+- add // 添加某个值，{ (v: any) => Set }
+- delete // 删除某个值，{ (v: any) => boolean }
+- has // 判断该值是否为成员，{ (v: any) => boolean }
+- clear // 清除所有成员，{ () => void }
+
+# Map
+
+类似于对象，但键名的范围不限于字符串，各种类型的值(包括对象)都可以当做键名
+
+- set // 添加某个成员，{ (key: any, value: any) => Map }
+- get // 获取某个成员，{ (key: any) => any }
+- has // 判断是否存在该键名，{ (key: any) => boolean }
+- clear // 清除所有成员，{ () => void }
+
+# Set 与 Map 遍历方法
+
+- keys // 返回键名的遍历器，{ () => Iterator }
+- values // 返回键值的遍历器，{ () => Iterator }
+- entries // 返回键值对的遍历器，{ () => Iterator }
+- forEach // 通过回调函数遍历每一个成员，{ ((item) => void) => void }
