@@ -21,7 +21,25 @@ class App extends React.Component {
     return res;
   }
   public componentDidMount(): void {
-    
+    // const target: Array<number> = [1, 2, 3, 4];
+    // const a = { name: 'a' };
+    // const target: any = {
+    //   a: 1
+    // };
+    // for (let k of target) {
+    //   console.log(k);
+    // }
+    // const c = new NodeIterator()    
+    let iterable = {
+      0: 'a',
+      1: 'b',
+      2: 'c',
+      length: 3,
+      [Symbol.iterator]: Array.prototype[Symbol.iterator]
+    };
+    for (let item of iterable) {
+      console.log(item); // 'a', 'b', 'c'
+    }
   }
   public render(): JSX.Element {
     const { ulNode }: I_state = this.state;
