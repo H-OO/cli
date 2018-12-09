@@ -29,17 +29,37 @@ class App extends React.Component {
     // for (let k of target) {
     //   console.log(k);
     // }
-    // const c = new NodeIterator()    
-    let iterable = {
-      0: 'a',
-      1: 'b',
-      2: 'c',
-      length: 3,
-      [Symbol.iterator]: Array.prototype[Symbol.iterator]
-    };
-    for (let item of iterable) {
-      console.log(item); // 'a', 'b', 'c'
+    // const c = new NodeIterator()
+    // let iterable = {
+    //   0: 'a',
+    //   1: 'b',
+    //   2: 'c',
+    //   length: 3,
+    //   [Symbol.iterator]: Array.prototype[Symbol.iterator]
+    // };
+    // for (let item of iterable) {
+    //   console.log(item); // 'a', 'b', 'c'
+    // }
+
+    function _Iterator(arr: Array<any>) {
+      // 当前遍历的下标
+      let nextIndex = 0;
+      // 返回一个对象，用来获取 next 方法
+      return {
+        next() {
+          return nextIndex < arr.length
+            ? { value: arr[nextIndex++], done: false }
+            : { value: undefined, done: true };
+        }
+      };
     }
+
+    const test = _Iterator([1, 2, 3]);
+    console.log(test.next()); // 
+    console.log(test.next()); // 
+    console.log(test.next()); // 
+    console.log(test.next()); // 
+    
   }
   public render(): JSX.Element {
     const { ulNode }: I_state = this.state;

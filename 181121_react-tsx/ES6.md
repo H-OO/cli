@@ -115,7 +115,7 @@ r.test('abc-ab'); // false
 - 0b 二进制
 - 0o 八进制
 
-```js es6
+```js
 0b111110111 === 503; // true
 0o767 === 503; // true
 ```
@@ -124,7 +124,7 @@ r.test('abc-ab'); // false
 
 **非十进制转十进制**
 
-```js es6
+```js
 Number('0b111'); // 7
 Number('0o10'); // 8
 ```
@@ -144,7 +144,7 @@ Number('0o10'); // 8
 
 `Number.isFinite()`和`Number.isNaN()`与传统的全局方法`isFinite()`和`isNaN()`的区别在于：只对数值有效。
 
-```js es6
+```js
 isFinite('25'); // true
 Number.isFinite('25'); // false
 Number.isFinite(25); // true
@@ -167,7 +167,7 @@ Number.parseFloat('123.23#'); // 123.23
 - cbrt // 计算参数数值的立方根, { (num: number) => number }
 - hypot // 返回所有参数的平方和的平方根, { (num: number) => number }
 
-```js es6
+```js
 Math.trunc(123.456); // 123
 Math.trunc('123.456'); // 123
 Math.trunc(true); // 1
@@ -310,7 +310,7 @@ arr.flatMap(x => [x, x * 2]); // [1, 2, 3, 6, 5, 10], 等同于 [[1, 2], [3, 6],
 
 **表达式对象属性名**
 
-```js es6
+```js
 const propKey = 'foo';
 let obj = {
   [propKey]: true,
@@ -444,7 +444,16 @@ for (let item of iterable) {
 }
 ```
 
-# for..of
+遍历器的本质就是一个指针对象，通过next方法指向数据结构的成员，直到数据结构的结束位置
+
+```js
+function _Iterator() {
+  let nextIndex = 0;
+}
+
+```
+
+# for...of
 
 能遍历具有 Iterator 接口的数据结构
 
