@@ -398,11 +398,11 @@ const set: Set<number> = new Set([1, 1, 2, 2, 3, 3]);
 
 # Iterator
 
-遍历器(Iterator)为各种不同的数据结构提供统一的访问机制, 处理所有不同的数据结构
-
-ES6规定, Iterator 接口部署在数据结构的`Symbol.iterator`属性
-
+遍历器(Iterator)为各种不同的数据结构提供统一的访问机制, 处理所有不同的数据结构  
+ES6规定, Iterator 接口部署在数据结构的`Symbol.iterator`属性  
 也就是说一种数据结构只要具有`Symbol.iterator`属性, 就可以认为是可遍历的
+
+---
 
 默认有部署 Iterator 接口的数据类型
 
@@ -444,13 +444,89 @@ for (let item of iterable) {
 }
 ```
 
-遍历器的本质就是一个指针对象，通过next方法指向数据结构的成员，直到数据结构的结束位置
+---
+
+**遍历器本质**
+
+遍历器本质就是一个指针对象, 通过next方法指向数据结构的成员, 直到数据结构的结束位置
 
 ```js
-function _Iterator() {
+// 遍历器本质
+function _Iterator(arr: Array<any>) {
+  // 当前遍历的下标
   let nextIndex = 0;
+  // 返回一个对象，用来获取 next 方法
+  return {
+    next() {
+      return nextIndex < arr.length
+        ? { value: arr[nextIndex++], done: false }
+        : { value: undefined, done: true };
+    }
+  };
 }
+const test = _Iterator([1, 2, 3]);
+test.next() // {value: 1, done: false}
+test.next() // {value: 2, done: false}
+test.next() // {value: 3, done: false}
+test.next() // {value: undefined, done: true}
+```
 
+**类部署 Iterator 接口**
+
+主要通过`[Symbol.iterator]`属性
+
+```js
+// 类部署 Iterator 接口写法
+class RangeIterator {
+  value: any;
+  stop: any;
+  constructor(start: any, stop: any) {
+    this.value = start;
+    this.stop = stop;
+  }
+  [Symbol.iterator]() { return this };
+  next() {
+    const { value, stop } = this;
+    if (value < stop) {
+      this.value++;
+      return { value, done: false }
+    } else {
+      return { value: undefined, done: true }
+    }
+  }
+}
+const range = new RangeIterator(0, 3);
+for (let k of range) {
+  console.log(k); // 0 1 2
+}
+```
+
+**对象部署 Iterator 接口**
+
+主要通过`[Symbol.iterator]`属性
+
+```js
+const obj = {
+  data: ['hello', 'world'],
+  [Symbol.iterator]() {
+    let index = 0;
+    const length = this.data.length;
+    const _self = this;
+    return {
+      next() {
+        // 调用`next`返回 { value: any, done: boolean }
+        if (index < length) {
+          return { value: _self.data[index++], done: false }
+        } else {
+          return { value: undefined, done: true }
+        }
+      }
+    }
+  }
+};
+for (let k of obj) {
+  console.log(k); // hello world
+}
 ```
 
 # for...of
@@ -459,5 +535,25 @@ function _Iterator() {
 
 注意：Object 默认没有部署 Iterator 接口, 无法使用 for...of
 
-# 
+---
+
+# async
+
+async 函数指异步函数，是 Generator 函数的语法糖
+
+```js
+async function test() {
+  const a = await 1; // 异步
+  const b = await 2; // 异步
+  return {
+    a,
+    b
+  }
+}
+const res = test();
+res.then((data) => {
+  console.log(data); // {a: 1, b: 2}
+})
+```
+
 
