@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-// import * as PropTypes from 'prop-types';
+import { mapStateToProps, mapDispatchToProps } from '../../actions/testActionCreater';
+import * as PropTypes from 'prop-types';
 
 class Counter extends React.Component {
-  // static propTypes = {
-  //   value: PropTypes.number.isRequired, // 类似声明
-  //   onIncreaseClick: PropTypes.func.isRequired // 类似声明
-  // };
+  // props 接收的参数声明
+  static propTypes = {
+    value: PropTypes.number.isRequired,
+    onIncreaseClick: PropTypes.func.isRequired
+  };
   public render(): JSX.Element {
     const { value, onIncreaseClick }: any = this.props;
     console.log(this);
@@ -17,19 +19,6 @@ class Counter extends React.Component {
       </div>
     );
   }
-}
-
-function mapStateToProps(state: any) {
-  console.log(state);
-  return {
-    value: state.test1.count
-  };
-}
-
-function mapDispatchToProps(dispatch: any) {
-  return {
-    onIncreaseClick: () => dispatch( { type: 'increase', t: '123' } )
-  };
 }
 
 export default connect(

@@ -6,20 +6,9 @@
  * actionCreater 格式参考
  */
 export function mapStateToProps(state: any) {
-  return {
-    value: state.test1.count
-  };
+  return {};
 }
 
 export function mapDispatchToProps(dispatch: any) {
-  return {
-    onIncreaseClick: () => {
-      // 同步
-      // dispatch( { type: 'increase', t: '123' } )
-      // 模拟异步
-      setTimeout(() => {
-        dispatch({ type: 'increase', t: '456' });
-      }, 1000);
-    }
-  };
+  return {};
 }
