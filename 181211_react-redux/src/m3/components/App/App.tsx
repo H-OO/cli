@@ -4,17 +4,23 @@ import {
   mapStateToProps,
   mapDispatchToProps
 } from '../../actions/testActionCreater';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 // 引入组件
 import Home from '../Home/Home';
+import List from '../List/List';
 
 class App extends React.Component {
   public render(): JSX.Element {
+    const { pathname }: { pathname: string } = window.location;
     return (
-      <Router>
+      <Router basename={pathname}>
         <div className="App">
-          <Route path="/" component={Home} />
+          <h2>m3</h2>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route exact path='/list' component={List} />
+          </Switch>
         </div>
       </Router>
     );

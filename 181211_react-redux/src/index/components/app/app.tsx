@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './app.scss';
+import './App.scss';
 const logo = require('../../images/logo.svg');
 import * as _ from 'lodash';
 import * as axios from 'axios';
@@ -45,7 +45,7 @@ class App extends React.Component {
   public render(): JSX.Element {
     const { asyncScript }: I_state = this.state;
     return (
-      <div className="app">
+      <div className="App">
         <img src={logo} alt="" className="logo" height="80"/>
         <div>react-tsx</div>
         <br/>

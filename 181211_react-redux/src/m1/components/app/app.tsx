@@ -13,9 +13,7 @@ class App extends React.Component {
   }
   public render(): JSX.Element {
     return (
-      <div className="app">
-        m1
-      </div>
+      <div>m1</div>
     );
   }
 }
