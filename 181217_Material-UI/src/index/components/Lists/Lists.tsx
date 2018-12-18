@@ -19,6 +19,7 @@ interface I_props {
 
 class Lists extends React.Component {
   public render(): JSX.Element {
+    console.log(this);
     const { handler }: I_props = this.props;
     return (
       <div className="List">
