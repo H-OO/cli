@@ -8,7 +8,6 @@ export default (
   state = { count: 0 },
   action: { type?: string }
 ) => {
-  console.log(action);
   switch (action.type) {
     case 'test':
       return {};

@@ -44,7 +44,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 **生命周期**
 
 ```
-
+组件初始化过程
 static defaultProps = {} // 设置默认`props`对象
 static propsTypes = {} // 检查`props`对象成员类型
 ↓
@@ -52,26 +52,27 @@ constructor() { super(); this.state = {} } // 设置默认`state`对象
 ↓
 componentWillMount() // 挂载之前, 异步请求、开启定时器
 ↓
-render() // 构建`Virtual DOM`树, 通过`diff`算法比较差异, 更新`DOM`树; 此时不可以修改`state`
+render() // 构建`Virtual DOM`树, 通过`react-diff`算法比较差异, 更新`DOM`树; 此时不可以修改`state`
 ↓
 componentDidMount() // 挂载之后, 动画启动、输入框自动聚焦
-
-```
-
-共有 10 个周期函数(render 重复一次)
-
-组件初始化触发 5 个钩子函数
-
-- getDefaultProps 设置默认的`props`
-- getInitialState 在`constructor`中定义`this.state`, 此时可以访问`this.props`
-- componentWillMount 异步请求拉取数据 | 定时器启动, 此时可以修改`state`
-- render 创建虚拟 DOM, 进行 diff 算法(比较差异), 更新 DOM 树, 此时不可以修改`state`
-- componentDidMount 动画启动 | 输入框自动聚焦
-
-组件更新时触发 5 个钩子函数
-
-- componentWillReceiveProps 接收新的`props`时调用
-- shouldComponentReceive
--
-
+↓
+组件运行时
 ---
+路线1: state改变
+↓
+shouldComponentUpdate(nextProps) // <性能优化点> return true 允许更新到DOM | return false 不允许更新到DOM
+|- return false
+    ↓
+    componentDidUpdate() // 更新完成, 无论DOM是否更新都会执行; 此时可以获取`DOM`
+|- return true
+    ↓
+    componentWillUpdate(nextProps) // 更新之前执行
+    ↓
+    render() // 更新`Virtual DOM`树, 通过`react-diff`算法比较差异, 更新`DOM`树; 此时不可以修改`state`
+    ↓
+    componentDidUpdate() // 更新完成, 无论DOM是否更新都会执行; 此时可以获取`DOM`
+---
+组件销毁
+↓
+componentWillUnmount() // 销毁之前, 清除事件监听和定时器
+```
