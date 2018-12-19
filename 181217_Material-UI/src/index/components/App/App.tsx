@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Home from '../Home/Home';
 import Lists from '../Lists/Lists';
 import T1 from '../T1/T1';
+import T2 from '../T2/T2';
 
 class App extends React.Component {
   public constructor(arg: any) {
@@ -35,6 +36,7 @@ class App extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/lists" component={Lists} />
             <Route exact path="/t1" component={T1} />
+            <Route exact path="/t2" component={T2} />
           </Switch>
         </div>
       </Router>

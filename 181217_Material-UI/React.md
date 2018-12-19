@@ -98,3 +98,37 @@ componentWillUnmount() // 销毁之前, 清除事件监听和定时器
 - 修改`state`需通过`setState`方法
 - `state`更新可能是异步的
 
+---
+
+**setState 方法**
+
+使用: `this.setState({} | () => {return {}})`
+
+疑问: 为什么`setState()`是异步的?
+
+原因:  
+react 更新组件采用的是`batchingStrategy`批量更新策略, 通过事务的方式实现`state`批量更新;  
+`isBatchingUpdates`是该事务的一个标志, 如果为`true`, 表示 react 正在一个更新组件的事务流中;  
+如果没有在事务流中, 调用`batchedUpdates`批量更新方法进入更新流程;  
+进入更新流程后, `isBatchingUpdates`设置为`true`;  
+否则将需更新的组件放入`dirtyComponents`数组中, 也就是将需更新的组件缓存起来, 稍后更新;  
+这就解释了调用`setState`并不会立即更新`state`的疑问.
+
+↓↓↓  
+情景 A: 在`componentDidMount`中调用`setState`  
+因为正处于一个更新流程中, `isBatchingUpdates`为`true`, 所以只能放入`dirtyComponents`数组中等待稍后更新  
+↑↑↑
+
+↓↓↓  
+情景 B: 在`事件`中调用`setState`  
+react 通过事件合成实现了对于事件的绑定;  
+在组件创建和更新的入口方法`mountComponent`和`updateComponent`中会将绑定的事件注册到`DOM`上;  
+相应的回调函数通过`EventPluginHub`存储;  
+事件触发时, `document`上`addEventListener`注册的`callback`会被回调, 回调函数为`ReactEventListener.dispatchEvent`;  `dispatchEvent`是事件分发的入口方法  
+↑↑↑
+
+---
+
+**react 事件合成的实现机制**
+
+

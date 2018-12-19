@@ -16,6 +16,9 @@ class Home extends React.Component {
         <Button variant="contained" color="primary">
           <Link to="/t1">to T1</Link>
         </Button>
+        <Button variant="contained" color="primary">
+          <Link to="/t2">to T2</Link>
+        </Button>
       </div>
     );
   }
