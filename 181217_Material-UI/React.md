@@ -124,11 +124,12 @@ react 更新组件采用的是`batchingStrategy`批量更新策略, 通过事务
 react 通过事件合成实现了对于事件的绑定;  
 在组件创建和更新的入口方法`mountComponent`和`updateComponent`中会将绑定的事件注册到`DOM`上;  
 相应的回调函数通过`EventPluginHub`存储;  
-事件触发时, `document`上`addEventListener`注册的`callback`会被回调, 回调函数为`ReactEventListener.dispatchEvent`;  `dispatchEvent`是事件分发的入口方法  
+事件触发时, `document`上`addEventListener`注册的`callback`会被回调, 回调函数为`ReactEventListener.dispatchEvent`;  
+`dispatchEvent`是事件分发的入口方法  
 ↑↑↑
 
 ---
 
 **react 事件合成的实现机制**
 
-
+react 底层实现了两件事, 分别是`事件委托`和`自动绑定`

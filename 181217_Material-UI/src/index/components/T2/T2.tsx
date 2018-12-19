@@ -12,6 +12,8 @@ class T2 extends React.Component {
     }
   }
   public handler() {
+    console.log(this);
+    
     const { c1 }: any = this.state;
     // setTimeout(() => {
       this.setState({
