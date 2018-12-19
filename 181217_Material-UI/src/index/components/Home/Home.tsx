@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
 class Home extends React.Component {
+  public componentWillReceiveProps(nextProps: any) {
+    console.log(nextProps);
+  }
   public render(): JSX.Element {
     return (
       <div className="Home">

@@ -12,10 +12,25 @@ import Lists from '../Lists/Lists';
 import T1 from '../T1/T1';
 
 class App extends React.Component {
+  public constructor(arg: any) {
+    super(arg);
+    this.state = {
+      msg: '.'
+    };
+    this.handler = this.handler.bind(this);
+  }
+  public handler() {
+    this.setState({
+      msg: 'okey'
+    });
+  }
   public render(): JSX.Element {
+    const { msg }: any = this.state;
     return (
       <Router basename="/">
         <div className="App">
+          <button onClick={this.handler}>changeApp</button>
+          <div>{msg}</div>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/lists" component={Lists} />

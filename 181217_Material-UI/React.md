@@ -60,7 +60,16 @@ componentDidMount() // 挂载之后, 动画启动、输入框自动聚焦
 ---
 路线1: state改变
 ↓
-shouldComponentUpdate(nextProps) // <性能优化点> return true 允许更新到DOM | return false 不允许更新到DOM
+<性能优化点>
+---
+路线2: 父组件更新 render()
+↓
+componentWillReceiveProps(nextProps) // 子组件获取到新的props, 判断是否更新组件状态
+↓
+<性能优化点>
+---
+<性能优化点>
+shouldComponentUpdate(nextProps) // return true 允许更新到DOM | return false 不允许更新到DOM
 |- return false
     ↓
     componentDidUpdate() // 更新完成, 无论DOM是否更新都会执行; 此时可以获取`DOM`
@@ -71,8 +80,21 @@ shouldComponentUpdate(nextProps) // <性能优化点> return true 允许更新�
     render() // 更新`Virtual DOM`树, 通过`react-diff`算法比较差异, 更新`DOM`树; 此时不可以修改`state`
     ↓
     componentDidUpdate() // 更新完成, 无论DOM是否更新都会执行; 此时可以获取`DOM`
+↓
+组件运行时
 ---
 组件销毁
 ↓
 componentWillUnmount() // 销毁之前, 清除事件监听和定时器
 ```
+
+---
+
+**state**
+
+使用须知
+
+- 构造函数是唯一能够初始化`state`的地方
+- 修改`state`需通过`setState`方法
+- `state`更新可能是异步的
+
