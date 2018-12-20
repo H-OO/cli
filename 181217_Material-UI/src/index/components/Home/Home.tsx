@@ -7,6 +7,7 @@ class Home extends React.Component {
     console.log(nextProps);
   }
   public render(): JSX.Element {
+    console.log(this.props);
     return (
       <div className="Home">
         <h3>【Home】</h3>

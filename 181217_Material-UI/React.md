@@ -128,8 +128,46 @@ react 通过事件合成实现了对于事件的绑定;
 `dispatchEvent`是事件分发的入口方法  
 ↑↑↑
 
+↓↓↓  
+情景 C: `原生事件绑定`中调用`setState`  
+原生事件绑定不会通过合成事件的方式处理, 不会进入更新事务的处理流程, 不放入`dirtyComponent`进行异步更新  
+↑↑↑
+
+↓↓↓  
+情景 D: `setTimeout`中调用`setState`  
+回调执行时已经完成了原更新组件流程, 不放入`dirtyComponent`进行异步更新  
+↑↑↑
+
+在更新组件时, 将更新的`state`合并到原`state`是在`componentWillUpdate`之后, `render`之前  
+即在`componentWillUpdate`之前设置的`setState`可以在`render`中拿到最新值
+
+小节:  
+1、在组件生命周期中或 react 事件绑定中调用, `setState`是通过异步更新的;  
+2、在延时器或原生事件的回调中调用, `setState`不一定是异步更新的。
+
 ---
 
 **react 事件合成的实现机制**
 
-react 底层实现了两件事, 分别是`事件委托`和`自动绑定`
+react 底层实现了两件事, 分别是`事件委托`和`自动绑定`, 并且事件在组件销毁时自动解绑
+
+1、react 将所有的事件绑定到结构的最外层, 使用统一的事件监听器  
+2、react 自身的每个方法会自动绑定`this`为当前的组件
+
+注意: 使用`es6 class或纯函数`写法, 这种绑定不复存在, 需要手动实现`this`绑定
+
+使用原生事件绑定在组件卸载时要手动移除, 否则很可能出现内存泄露问题
+
+react 合成事件中没有实现事件捕获, 仅仅支持事件冒泡机制
+
+react 合成事件阻止默认行为`e.preventDefault()`, 阻止冒泡`e.stopPropagation()`
+
+---
+
+**合成事件与原生事件混用**
+
+reactEvent.nativeEvent.stopPropagation() 只能用于 react 合成事件, 不能阻止原生事件冒泡  
+原生事件阻止冒泡行为可以阻止 react 合成事件的传播
+
+---
+
