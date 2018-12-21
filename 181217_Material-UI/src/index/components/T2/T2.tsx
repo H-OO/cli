@@ -28,6 +28,9 @@ class T2 extends React.Component {
     console.log('---');
     console.log(c1 + 1);
     console.log(this.state); // 获取不到最新的
+    console.log(document.body.clientWidth);
+    console.log(document.body.clientHeight);
+    console.log(document.body.clientTop);
   }
   public render(): JSX.Element {
     const { c1 }: any = this.state;
