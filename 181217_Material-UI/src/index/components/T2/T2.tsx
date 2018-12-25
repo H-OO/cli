@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 
 function FancyBorder(props: any) {
-  console.log(props);
   return (
     <div className={'FancyBorder FancyBorder-' + props.color}>
       {props.children}
@@ -28,9 +27,11 @@ class T2 extends React.Component {
     console.log('---');
     console.log(c1 + 1);
     console.log(this.state); // 获取不到最新的
-    console.log(document.body.clientWidth);
-    console.log(document.body.clientHeight);
-    console.log(document.body.clientTop);
+  }
+  public componentWillMount() {
+    const str: string = 'abc';
+    const res = str.match(/a/);
+    console.log(res);
   }
   public render(): JSX.Element {
     const { c1 }: any = this.state;
