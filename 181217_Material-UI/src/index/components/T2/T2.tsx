@@ -29,9 +29,15 @@ class T2 extends React.Component {
     console.log(this.state); // 获取不到最新的
   }
   public componentWillMount() {
-    const str: string = 'abc';
-    const res = str.match(/a/);
-    console.log(res);
+    const arr: Array<any> = ['在', '我', 9, 1, 'z', 'a', '0'];
+    arr.sort((a, b) => a.toString().localeCompare(b)); // ["0", 1, 9, "我", "在", "a", "z"]
+    console.log(arr);
+
+    const num1: number = 1;
+    const num9: number = 9;
+    console.log(num1.toString().localeCompare(num9 as any)); // -1
+    console.log(num9.toString().localeCompare(num1 as any)); // 1
+    console.log('啊'.localeCompare('在'));
   }
   public render(): JSX.Element {
     const { c1 }: any = this.state;
