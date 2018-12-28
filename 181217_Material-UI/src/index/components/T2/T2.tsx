@@ -30,21 +30,12 @@ class T2 extends React.Component {
     console.log(this.state); // 获取不到最新的
   }
   public componentWillMount() {
-    // const o = {};
-    class P {
-      name = 'y';
-      constructor() {
-        this.name = 'n';
-      }
-      t() {}
-    }
-    const p = new P();
-    console.log(p);
-    console.log(p.toString());
-
-    const date = new Date();
-    console.log(date.toString());
-    console.log(p.valueOf());
+    const o = {
+      arr: [1, 2, 3],
+      num: 1
+    };
+    const res = o.propertyIsEnumerable('num');
+    console.log(res);
   }
   public render(): JSX.Element {
     const { c1 }: any = this.state;
