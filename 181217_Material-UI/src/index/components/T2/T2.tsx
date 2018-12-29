@@ -30,11 +30,19 @@ class T2 extends React.Component {
     console.log(this.state); // 获取不到最新的
   }
   public componentWillMount() {
-    const o = {
-      arr: [1, 2, 3],
-      num: 1
-    };
-    const res = o.propertyIsEnumerable('num');
+    // const str = 'matrix(1, 0, 0, 1, -100, 0)';
+    // const str = 'matrix(123abc)';
+    // console.log(  str.match( / matrix\( [\.\w]* \) /g )  );
+    // const str = '$t(Aa._01)';
+    // const res = str.match(/\$t\([\.\w]*\)/g);
+    // console.log(res); // ['$t(Aa._01)', '$t(Aa._02)']
+
+    // const str = 'matrix(1, 0, 0, 1, -100, 0)';
+    // const res = str.match(/[^a-z\(\)\s\,]+/g).slice(4);
+    // console.log(res); // ['-100', '0']
+
+    const str = '1234';
+    const res = str.replace(/(\d{2})(\d{2})/, '$1-$2');
     console.log(res);
   }
   public render(): JSX.Element {
