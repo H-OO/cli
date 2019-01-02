@@ -30,20 +30,18 @@ class T2 extends React.Component {
     console.log(this.state); // 获取不到最新的
   }
   public componentWillMount() {
-    // const str = 'matrix(1, 0, 0, 1, -100, 0)';
-    // const str = 'matrix(123abc)';
-    // console.log(  str.match( / matrix\( [\.\w]* \) /g )  );
-    // const str = '$t(Aa._01)';
-    // const res = str.match(/\$t\([\.\w]*\)/g);
-    // console.log(res); // ['$t(Aa._01)', '$t(Aa._02)']
-
-    // const str = 'matrix(1, 0, 0, 1, -100, 0)';
-    // const res = str.match(/[^a-z\(\)\s\,]+/g).slice(4);
-    // console.log(res); // ['-100', '0']
-
-    const str = '1234';
-    const res = str.replace(/(\d{2})(\d{2})/, '$1-$2');
-    console.log(res);
+    function P(name, age) {
+      const name = name;
+      const age = age;
+      const o = new Object();
+      o.sayName = function() {
+        console.log(name);
+      }
+      return o;
+    }
+    const p = new P('yy', 20);
+    console.log(p);
+    p.sayName()
   }
   public render(): JSX.Element {
     const { c1 }: any = this.state;
