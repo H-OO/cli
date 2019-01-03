@@ -30,18 +30,15 @@ class T2 extends React.Component {
     console.log(this.state); // 获取不到最新的
   }
   public componentWillMount() {
-    function P(name, age) {
-      const name = name;
-      const age = age;
-      const o = new Object();
-      o.sayName = function() {
-        console.log(name);
+    const proto = {
+      todo: function() {}
+    };
+    const o1 = Object.create(proto, {
+      name: {
+        value: 'yy'
       }
-      return o;
-    }
-    const p = new P('yy', 20);
-    console.log(p);
-    p.sayName()
+    });
+    console.log(o1);
   }
   public render(): JSX.Element {
     const { c1 }: any = this.state;
