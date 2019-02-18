@@ -6,5 +6,5 @@
  */
 module.exports  = {
   title: 'index',
-  chunks: []
+  chunks: ['']
 };
